@@ -16,6 +16,8 @@ int main( void )
    print();
    doCalc();
    print();
+   printB();
+   update();
    return 0;
 }
 
