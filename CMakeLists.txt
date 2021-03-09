@@ -9,6 +9,4 @@ add_executable(C_HW5
 		leader.c
 		part_A.c
 		part_B.c
-		song.c
-		team.h
-		test.c)
+		team.h)

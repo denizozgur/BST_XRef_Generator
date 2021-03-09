@@ -1,4 +1,5 @@
 /*
+  Name: Deniz Erisgen
    Source code for the main part of the project
    
    Your tasks:
@@ -18,6 +19,21 @@ int main( void )
    return 0;
 }
 
-/* Output
- 
+/* Output\
+ * Before:
+  Function getData
+**********
+ Function print
+ Function doCalc
+ Function print
+
+ * After:
+  Function getData
+**********
+ Function print
+ Function doCalc
+ Function print
+ Func print B
+ Function update
+
  */

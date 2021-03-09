@@ -4,8 +4,6 @@
 #include "team.h"
 
 /* =============================== */
-void print( void )
-{  
-   printf( " Function print\n" );
-}
- 
+void print(void) { printf(" Function print\n"); }
+
+void printB(void) { printf(" Func print B \n"); }

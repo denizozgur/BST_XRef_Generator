@@ -13,4 +13,6 @@ typedef struct {
 void getData( void );
 void doCalc( void );
 void print( void );
+void printB( void );
+void update( void );
 
