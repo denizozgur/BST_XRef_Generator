@@ -58,6 +58,7 @@ void enqueue(Q_NODE **queue, Q_NODE **rear, unsigned int data) {
 	qNew->next = NULL;
 	if (*queue == NULL) *queue = qNew;
 	else {
+		if ((*rear)->data == data) return;
 		(*rear)->next = qNew;
 	}
 	*rear = qNew;
