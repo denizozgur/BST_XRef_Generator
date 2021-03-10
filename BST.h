@@ -3,6 +3,7 @@
 #ifndef C_HW5_BST_H
 #define C_HW5_BST_H
 
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -15,8 +16,8 @@ typedef struct qnode {
 
 typedef struct node {
 	char word_str[50];
-	Q_NODE* queue;
-	Q_NODE* rear;
+	Q_NODE *queue;
+	Q_NODE *rear;
 	struct node *left;
 	struct node *right;
 } T_NODE;
@@ -25,6 +26,7 @@ T_NODE *buildTree(FILE *fin, FILE *fout);
 void writeToFile(FILE *fp, T_NODE *root);
 int insert(T_NODE **root, const char *readStr, unsigned data);
 void enqueue(Q_NODE **queue, Q_NODE **rear, unsigned data);
-char* timeStamp();
+char *timeStamp();
+u_short isIdentifier(const char *word);
 
 #endif  // C_HW5_BST_H

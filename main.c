@@ -8,9 +8,9 @@
 
 
 int main(int argc, char** argv) {
-//	char* in_filename = argv[1];
-	char* in_filename = "song.c";
-//	char* out_filename = argv[2];
+	//	char* in_filename = argv[1];
+	char* in_filename = "test.c";
+	//	char* out_filename = argv[2];
 	char* out_filename = "out.txt";
 	char* ptr = strchr(in_filename, '.');
 	ptr++;
@@ -19,8 +19,8 @@ int main(int argc, char** argv) {
 	if ((fin = fopen(in_filename, "r")) == NULL) { printf("Could not open %s.\n", in_filename); }
 	if ((fout = fopen(out_filename, "w")) == NULL) { printf("Could not open %s.\n", out_filename); }
 
-	fprintf(fout,"~*~ Cross-Reference List ~*~\n");
-	writeToFile(fout, buildTree(fin,fout));
+	fprintf(fout, "~*~ Cross-Reference List ~*~\n");
+	writeToFile(fout, buildTree(fin, fout));
 
 	fclose(fin);
 	fclose(fout);
