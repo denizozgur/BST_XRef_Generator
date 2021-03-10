@@ -8,16 +8,14 @@
 #include <stdlib.h>
 
 typedef struct node NODE;
-struct node
-{
-	int          data;
+struct node {
+	int data;
 	struct node *next;
 };
 
-int main (void)
-{
-	NODE *dequeue(NODE **queue, NODE **rear);
-	void  enqueue(NODE **queue, NODE **rear, int data);
+int main(void) {
+	NODE *dequeue(NODE * *queue, NODE * *rear);
+	void enqueue(NODE * *queue, NODE * *rear, int data);
 
 	NODE *queue = NULL, *rear = NULL;
 	NODE *front;
@@ -25,59 +23,53 @@ int main (void)
 	enqueue(&queue, &rear, 3);
 	enqueue(&queue, &rear, 4);
 	enqueue(&queue, &rear, 5);
-
 	front = dequeue(&queue, &rear);
-	if (front)
-	{
+
+	if (front) {
 		printf("Front node of queue is %d\n", front->data);
 		free(front);
-	}
-	else printf("Empty queue!\n");
+	} else
+		printf("Empty queue!\n");
 
 	front = dequeue(&queue, &rear);
-	if (front)
-	{
+	if (front) {
 		printf("Front node of queue is %d\n", front->data);
 		free(front);
-	}
-	else printf("Empty queue!\n");
+	} else
+		printf("Empty queue!\n");
 
 
 	front = dequeue(&queue, &rear);
-	if (front)
-	{
+	if (front) {
 		printf("Front node of queue is %d\n", front->data);
 		free(front);
-	}
-	else printf("Empty queue!\n");
+	} else
+		printf("Empty queue!\n");
 
 	front = dequeue(&queue, &rear);
-	if (front)
-	{
+	if (front) {
 		printf("Front node of queue is %d\n", front->data);
 		free(front);
-	}
-	else printf("Empty queue!\n");
+	} else
+		printf("Empty queue!\n");
 
 	return 0;
 }
 /***************************************************
     Queue Insert: insert at the end
 */
-void enqueue(NODE **queue, NODE **rear, int data)
-{
+void enqueue(NODE **queue, NODE **rear, int data) {
 	NODE *pnew;
-
-	pnew = (NODE *) malloc(sizeof (NODE));
-	if (!pnew)
-	{
+	pnew = (NODE *) malloc(sizeof(NODE));
+	if (!pnew) {
 		printf("... error in enqueue!\n");
 		exit(1);
 	}
 	pnew->data = data;
 	pnew->next = NULL;
 	if (*queue == NULL) *queue = pnew;
-	else (*rear)->next = pnew;
+	else
+		(*rear)->next = pnew;
 	*rear = pnew;
 	return;
 }
@@ -85,8 +77,7 @@ void enqueue(NODE **queue, NODE **rear, int data)
 /***************************************************
     Queue Delete: remove the first node
 */
-NODE *dequeue(NODE **queue, NODE **rear)
-{
+NODE *dequeue(NODE **queue, NODE **rear) {
 	NODE *first;
 
 	if (*queue == NULL) return NULL;
@@ -109,10 +100,10 @@ NODE *dequeue(NODE **queue, NODE **rear)
 
  ***************************************************/
 
- /*******************************************************
-    Examples: 3.20 - 3.23
-    Driver program to demonstrate the OS Queues Program:
-    a singly-linked list of queues
+/*******************************************************
+   Examples: 3.20 - 3.23
+   Driver program to demonstrate the OS Queues Program:
+   a singly-linked list of queues
 /*******************************************************/
 
 #include <stdio.h>
@@ -125,8 +116,7 @@ NODE *dequeue(NODE **queue, NODE **rear)
 
 // queue node
 typedef struct request REQUEST;
-struct request
-{
+struct request {
 	char *username;
 	long job_id;
 	struct request *next;
@@ -134,30 +124,25 @@ struct request
 
 // linked list node
 typedef struct service SERVICE;
-struct service
-{
+struct service {
 	char *qname;
 	struct request *front;
 	struct request *rear;
 	struct service *next;  // next node in the list
 };
 
-int main (void)
-{
+int main(void) {
 	SERVICE *init_list(void);
 	void getinfo(char *qname, char *username, long *job_id);
-	void insert(SERVICE *serv_ptr, char *qname, char *username, long job_id);
-	void traverse(SERVICE *serv_ptr);
+	void insert(SERVICE * serv_ptr, char *qname, char *username, long job_id);
+	void traverse(SERVICE * serv_ptr);
 
 	SERVICE *serv_ptr;
 	char qname[30], username[20];
 	long job_id;
 
 	serv_ptr = init_list();
-	while (getinfo(qname, username, &job_id), strcmp(qname, "quit") != 0)
-	{
-		insert(serv_ptr, qname, username, job_id);
-	}
+	while (getinfo(qname, username, &job_id), strcmp(qname, "quit") != 0) { insert(serv_ptr, qname, username, job_id); }
 	traverse(serv_ptr);
 
 	return 0;
@@ -167,35 +152,30 @@ int main (void)
     Initialization of a linked list with two
     sentinel nodes
 */
-SERVICE *init_list(void)
-{
+SERVICE *init_list(void) {
 	SERVICE *serv_ptr;
 
 	// allocate the first sentinel node
-	serv_ptr = (SERVICE *) malloc(sizeof (SERVICE));
-	if (!serv_ptr)
-	{
+	serv_ptr = (SERVICE *) malloc(sizeof(SERVICE));
+	if (!serv_ptr) {
 		printf("Error in init_list!\n");
 		exit(1);
 	}
 	serv_ptr->qname = (char *) malloc(1);
-	if (!serv_ptr->qname)
-	{
+	if (!serv_ptr->qname) {
 		printf("Error in init_list!\n");
 		exit(1);
 	}
-	*serv_ptr->qname = '\0'; // dummy header value
+	*serv_ptr->qname = '\0';  // dummy header value
 
 	// allocate the last sentinel node
-	serv_ptr->next = (SERVICE *) malloc(sizeof (SERVICE));
-	if (!(serv_ptr->next))
-	{
+	serv_ptr->next = (SERVICE *) malloc(sizeof(SERVICE));
+	if (!(serv_ptr->next)) {
 		printf("Error in init_list!\n");
 		exit(1);
 	}
 	serv_ptr->next->qname = (char *) malloc(2);
-	if (!serv_ptr->next->qname)
-	{
+	if (!serv_ptr->next->qname) {
 		printf("Error in init_list!\n");
 		exit(1);
 	}
@@ -210,15 +190,13 @@ SERVICE *init_list(void)
 /************************************************************************
     Get user input
 */
-void getinfo(char *qname, char *username, long *job_id)
-{
+void getinfo(char *qname, char *username, long *job_id) {
 	char line[512];
 
 	printf("Enter qname username job-id (such as Print1 John 1234): ");
 	gets(line);
 
-	if (strcmp(line, "quit") == 0)
-		strcpy(qname, "quit");
+	if (strcmp(line, "quit") == 0) strcpy(qname, "quit");
 	else
 		sscanf(line, "%s %s %ld", qname, username, job_id);
 	return;
@@ -228,28 +206,24 @@ void getinfo(char *qname, char *username, long *job_id)
 /************************************************************************
     Insert a new request
 */
-void insert(SERVICE *serv_ptr, char *qname, char *username, long job_id)
-{
+void insert(SERVICE *serv_ptr, char *qname, char *username, long job_id) {
 	SERVICE *curr = serv_ptr->next;
 	SERVICE *prev = serv_ptr;
 	SERVICE *newserv;
 	REQUEST *newreq;
 
 	// look for qname
-	while (strcmp(qname, curr->qname) > 0)
-	{
+	while (strcmp(qname, curr->qname) > 0) {
 		prev = curr;
 		curr = curr->next;
 	}
-	if (strcmp(qname, curr->qname) != 0) // Not found: new service!
-	{                                    // add a new node to the linked list
-		if ((newserv = (SERVICE *)malloc(sizeof(SERVICE))) == NULL)
-		{
+	if (strcmp(qname, curr->qname) != 0)  // Not found: new service!
+	{                                     // add a new node to the linked list
+		if ((newserv = (SERVICE *) malloc(sizeof(SERVICE))) == NULL) {
 			printf("Fatal malloc error!\n");
 			exit(1);
 		}
-		if ((newserv->qname = (char *)malloc(strlen(qname) + 1)) == NULL)
-		{
+		if ((newserv->qname = (char *) malloc(strlen(qname) + 1)) == NULL) {
 			printf("Fatal malloc error!\n");
 			exit(2);
 		}
@@ -257,19 +231,16 @@ void insert(SERVICE *serv_ptr, char *qname, char *username, long job_id)
 		newserv->next = curr;
 		prev->next = newserv;
 		newserv->front = NULL;
-	}
-	else // server found
+	} else  // server found
 	{
 		newserv = curr;
 	}
 	// add a new node to the matching queue
-	if ((newreq = (REQUEST *)malloc(sizeof(REQUEST))) == NULL)
-	{
+	if ((newreq = (REQUEST *) malloc(sizeof(REQUEST))) == NULL) {
 		printf("Fatal malloc error!\n");
 		exit(3);
 	}
-	if ((newreq->username = (char *)malloc(strlen(username) + 1)) == NULL)
-	{
+	if ((newreq->username = (char *) malloc(strlen(username) + 1)) == NULL) {
 		printf("Fatal malloc error!\n");
 		exit(4);
 	}
@@ -277,12 +248,9 @@ void insert(SERVICE *serv_ptr, char *qname, char *username, long job_id)
 	newreq->job_id = job_id;
 	newreq->next = NULL;
 
-	if (newserv->front == NULL)
-	{
+	if (newserv->front == NULL) {
 		newserv->rear = newserv->front = newreq;
-	}
-	else
-	{
+	} else {
 		curr->rear->next = newreq;
 		curr->rear = curr->rear->next;
 	}
@@ -292,24 +260,20 @@ void insert(SERVICE *serv_ptr, char *qname, char *username, long job_id)
 /************************************************************************
     Traverse a list of queues
 */
-void traverse(SERVICE *serv_ptr)
-{
+void traverse(SERVICE *serv_ptr) {
 	REQUEST *reqptr;
 
-	serv_ptr = serv_ptr->next; // skip dummy node
-	while (*serv_ptr->qname != DUMMY_TRAILER)
-	{
+	serv_ptr = serv_ptr->next;  // skip dummy node
+	while (*serv_ptr->qname != DUMMY_TRAILER) {
 		printf("Service name: %s\n", serv_ptr->qname);
 		printf("--------------------\n");
-		for (reqptr = serv_ptr->front; reqptr != NULL; reqptr = reqptr->next)
-		{
-			printf("%-15s %ld\n", reqptr->username, reqptr->job_id );
+		for (reqptr = serv_ptr->front; reqptr != NULL; reqptr = reqptr->next) {
+			printf("%-15s %ld\n", reqptr->username, reqptr->job_id);
 		}
 		putchar('\n');
 		serv_ptr = serv_ptr->next;
 	}
 }
-
 
 
 /***************************************************
@@ -341,36 +305,33 @@ void traverse(SERVICE *serv_ptr)
 
 #define MAX 50
 
-typedef struct nodeTag{
+typedef struct nodeTag {
 	int data;
 	struct nodeTag *left;
 	struct nodeTag *right;
 } NODE;
 
-int main( void )
-{
-	NODE *buildBinaryTree( int n );
-	void printTreeInorder( NODE *root );
-	int insert( NODE **root, int data );
-	NODE *find(NODE *root, int target);
+int main(void) {
+	NODE *buildBinaryTree(int n);
+	void printTreeInorder(NODE * root);
+	int insert(NODE * *root, int data);
+	NODE *find(NODE * root, int target);
 
 	NODE *root, *ptr;
-	int   n = 10, s = 10, r;
+	int n = 10, s = 10, r;
 
 	srand(time(NULL));
-	root = buildBinaryTree( n );
-	printTreeInorder( root );
+	root = buildBinaryTree(n);
+	printTreeInorder(root);
 
-	while (s--)
-	{
+	while (s--) {
 		r = rand() % MAX;
 		ptr = find(root, r);
-		if(ptr)
-			printf("%3d found: %3d\n", r, ptr->data);
+		if (ptr) printf("%3d found: %3d\n", r, ptr->data);
 		else
 			printf("%3d NOT found!\n", r);
 	}
-	printf( "\n\n" );
+	printf("\n\n");
 	return 0;
 }
 
@@ -378,12 +339,11 @@ int main( void )
    INORDER
    Print a BST in Left-Root-Right sequence.
 */
-void printTreeInorder( NODE *root )
-{
-	if( root ){
-		printTreeInorder( root->left);
-		printf( "%3d",  root->data );
-		printTreeInorder( root->right);
+void printTreeInorder(NODE *root) {
+	if (root) {
+		printTreeInorder(root->left);
+		printf("%3d", root->data);
+		printTreeInorder(root->right);
 	}
 	return;
 }
@@ -392,14 +352,13 @@ void printTreeInorder( NODE *root )
    Build a random BST of integer numbers within the range
    0 to MAX - 1
 */
-NODE *buildBinaryTree( int n )
-{
+NODE *buildBinaryTree(int n) {
 	NODE *root = NULL;
-	int   data;
+	int data;
 
-	while(n){
-		data   = rand( ) % MAX;
-		if(insert(&root, data)) // not a duplicate!
+	while (n) {
+		data = rand() % MAX;
+		if (insert(&root, data))  // not a duplicate!
 			n--;
 	}
 	return root;
@@ -408,26 +367,22 @@ NODE *buildBinaryTree( int n )
 /****************************************************************
    ITERATIVE Insert
 */
-int insert( NODE **root, int data )
-{
+int insert(NODE **root, int data) {
 	NODE **ptr_root = root;
 
-	while(*ptr_root){
-		if (data > (*ptr_root)->data)
-			ptr_root = &(*ptr_root)->right;
+	while (*ptr_root) {
+		if (data > (*ptr_root)->data) ptr_root = &(*ptr_root)->right;
 		else if (data < (*ptr_root)->data)
 			ptr_root = &(*ptr_root)->left;
-		else
-		{
+		else {
 			printf("Node already in the tree!\n");
-			return 0; // duplicate
+			return 0;  // duplicate
 		}
 	}
-	if(!(*ptr_root = (NODE *) malloc (sizeof(NODE))))
-		printf( "Fatal malloc error!\n" ), exit(1);
-	(*ptr_root)->data  = data;
-	(*ptr_root)->left  = (*ptr_root)->right = NULL;
-	return 1; // data inserted
+	if (!(*ptr_root = (NODE *) malloc(sizeof(NODE)))) printf("Fatal malloc error!\n"), exit(1);
+	(*ptr_root)->data = data;
+	(*ptr_root)->left = (*ptr_root)->right = NULL;
+	return 1;  // data inserted
 }
 
 /****************************************************************
@@ -459,16 +414,12 @@ int insert( NODE **root, int data )
 /****************************************************************
    ITERATIVE Search
 */
-NODE *find(NODE *root, int target)
-{
+NODE *find(NODE *root, int target) {
 	NODE *mover = root;
 
-	while (mover)
-	{
-		if (target < mover->data)
-			mover = mover->left;
-		else
-		if (target > mover->data)
+	while (mover) {
+		if (target < mover->data) mover = mover->left;
+		else if (target > mover->data)
 			mover = mover->right;
 		else
 			return mover;
@@ -506,7 +457,6 @@ NODE *find(NODE *root, int target)
  ***************************************************/
 
 
-
 /*****
 CIS 26B - Advanced C Programming
 Homework #3:
@@ -515,17 +465,19 @@ Homework #3:
  NAME: Deniz Erisgen
  IDE: GCC
 */
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-#define FLUSH while ( getchar()!= '\n');
-#define HARDWARE_ID_LEN 4 // Length of hardware identifiers
-#define MAX_HARDWARE_NAME_LEN 20 // Maximum length of hardware names.
+#define FLUSH                 \
+	while (getchar() != '\n') \
+		;
+#define HARDWARE_ID_LEN 4  // Length of hardware identifiers
+#define MAX_HARDWARE_NAME_LEN 20  // Maximum length of hardware names.
 #define MAX_FILENAME_LEN 30
 // Parameters for the database hashtable structure.
-#define BUCKET_SIZE 3   // Number of records per hash bucket in the data file
+#define BUCKET_SIZE 3  // Number of records per hash bucket in the data file
 #define NUM_BUCKETS 30  // Number of buckets in the data file.
 //  Structure with a hardware record, as it is stored in the database.
 typedef struct {
@@ -537,25 +489,25 @@ typedef struct {
 typedef enum operation { SEARCH, DELETE } OP_TYPE;
 typedef enum check { ID, ITEM } CHECK_TYPE;
 
-void interactiveMenu(FILE* fp);
+void interactiveMenu(FILE *fp);
 
 void pMenu();
 
-void createFile(FILE* fp);
+void createFile(FILE *fp);
 
-void searchOrDelete(char* searchId, FILE* fp, OP_TYPE opType);
+void searchOrDelete(char *searchId, FILE *fp, OP_TYPE opType);
 
-int inputParser(char* inputString, FILE* fp, CHECK_TYPE parseType);
+int inputParser(char *inputString, FILE *fp, CHECK_TYPE parseType);
 
-void insertItem(HARDWARE* item, FILE* fp);
+void insertItem(HARDWARE *item, FILE *fp);
 
-void addItemsFromFile(char* inputString, FILE* fp);
+void addItemsFromFile(char *inputString, FILE *fp);
 
-void printTable(FILE* reader);
+void printTable(FILE *reader);
 
-int main(int argc, char** argv) {
-	char* filename = (argv[1] != NULL) ? argv[1] : "hardware.dat";
-	FILE* fp;
+int main(int argc, char **argv) {
+	char *filename = (argv[1] != NULL) ? argv[1] : "hardware.dat";
+	FILE *fp;
 	if ((fp = fopen(filename, "r+b")) == NULL) {
 		printf("Could not open %s.\n", filename);
 		fp = fopen(filename, "w+b");
@@ -577,11 +529,11 @@ int main(int argc, char** argv) {
  *
  *  Input:File ptr to open table file
  *  Output:None
-********************************************************/
-void interactiveMenu(FILE* fp) {
+ ********************************************************/
+void interactiveMenu(FILE *fp) {
 	char input[MAX_FILENAME_LEN + 1] = "";
 	char choice = '1';
-	while ( (choice != 'e') && (choice != 'E')) {
+	while ((choice != 'e') && (choice != 'E')) {
 		rewind(fp);
 		printf("Enter selection (M - menu): ");
 		scanf("%1s", &choice);
@@ -606,34 +558,26 @@ void interactiveMenu(FILE* fp) {
 				printf("Please enter \"ID , DESCRIPTION : Quantity\"  : ");
 				scanf("%30[^\n]s", input);
 				FLUSH;
-				(inputParser(input, fp, ITEM)) ? : printf(
-				  "Couldn't process \" %s \"\nPlease double check your input\n", input);
+				(inputParser(input, fp, ITEM))
+				  ?: printf("Couldn't process \" %s \"\nPlease double check your input\n", input);
 				break;
 			case 'b':
 			case 'B':
 				printf("Please enter a filename :");
 				scanf("%30[^\n]s", input);
 				FLUSH;
-				addItemsFromFile(input,fp);
+				addItemsFromFile(input, fp);
 				break;
 			case 'm':
-			case 'M':
-				pMenu();
-				break;
+			case 'M': pMenu(); break;
 			case 't':
-			case 'T':
-				printTable(fp);
-				break;
+			case 'T': printTable(fp); break;
 			case 'e':
-			case 'E':
-				break;
-			default:
-				printf("Invalid Entry\nPlease choose a correct command\n");
-				pMenu();
+			case 'E': break;
+			default: printf("Invalid Entry\nPlease choose a correct command\n"); pMenu();
 		}
 		putchar('\n');
 	}
-
 }
 
 /********************************************************
@@ -652,11 +596,11 @@ void interactiveMenu(FILE* fp) {
  *			table.
  *
  *  Output:Successful operation Returns 1
-********************************************************/
-int inputParser(char* inputString, FILE* fp, CHECK_TYPE parseType) {
-	char* digits = "0123456789";
-	char* approved = " aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTvVuUwWxXyYzZ()";
-	char* tkn, * start, * end;
+ ********************************************************/
+int inputParser(char *inputString, FILE *fp, CHECK_TYPE parseType) {
+	char *digits = "0123456789";
+	char *approved = " aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTvVuUwWxXyYzZ()";
+	char *tkn, *start, *end;
 	start = inputString;
 	while (*start == ' ') ++start;
 	if (start - inputString != 0) strcpy(inputString, start);
@@ -667,7 +611,7 @@ int inputParser(char* inputString, FILE* fp, CHECK_TYPE parseType) {
 	if (*tkn != ',') {
 		*tkn = ',';
 		start = tkn + 1;
-		if (!(tkn= strrchr(start, ',')) || strspn(tkn,digits) != 0) return 0;
+		if (!(tkn = strrchr(start, ',')) || strspn(tkn, digits) != 0) return 0;
 		*tkn = ' ';
 		while (*tkn == ' ') ++tkn;
 		strcpy(start, tkn);
@@ -679,7 +623,7 @@ int inputParser(char* inputString, FILE* fp, CHECK_TYPE parseType) {
 	}
 	if (!(tkn = strrchr(start, ':')) || (strspn(start, approved) != tkn - start)) return 0;
 	start = tkn;
-	if (*(start -1)  == ' ' && *(start+1) == ' ') {
+	if (*(start - 1) == ' ' && *(start + 1) == ' ') {
 		tkn = start - 1;
 		end = start + 1;
 		while (strlen(end) != 0 && *(end) == ' ') end++;
@@ -689,7 +633,7 @@ int inputParser(char* inputString, FILE* fp, CHECK_TYPE parseType) {
 		strcpy(tkn, start);
 	}
 	while (*tkn == ' ') ++tkn;
-	if (!(strspn(tkn+1,digits))) return 0;
+	if (!(strspn(tkn + 1, digits))) return 0;
 	HARDWARE temp = {};
 	tkn = strtok(inputString, ",");
 	strcpy(temp.id, tkn);
@@ -711,8 +655,8 @@ int inputParser(char* inputString, FILE* fp, CHECK_TYPE parseType) {
  *  Input:File ptr from main with a default file name
  *  "hardware.dat"
  *  Output: None
-********************************************************/
-void createFile(FILE* fp) {
+ ********************************************************/
+void createFile(FILE *fp) {
 	HARDWARE items[NUM_BUCKETS][BUCKET_SIZE] = {""};
 	if (fwrite(&items[0][0], sizeof(HARDWARE), (NUM_BUCKETS * BUCKET_SIZE), fp) < NUM_BUCKETS) {
 		printf("Hash table could not be created. Abort!\n");
@@ -729,8 +673,8 @@ void createFile(FILE* fp) {
  *  Input:Ptr to a HARDWARE struct and File ptr to open
  *  table file
  *  Output:None
-********************************************************/
-void insertItem(HARDWARE* item, FILE* fp) {
+ ********************************************************/
+void insertItem(HARDWARE *item, FILE *fp) {
 	HARDWARE test;
 	long address = hash((item->id));
 	if (fseek(fp, address * BUCKET_SIZE * sizeof(HARDWARE), SEEK_SET) != 0) {
@@ -742,10 +686,9 @@ void insertItem(HARDWARE* item, FILE* fp) {
 		if (*test.id == '\0') {
 			fseek(fp, -1L * sizeof(HARDWARE), SEEK_CUR);
 			fwrite(item, sizeof(HARDWARE), 1, fp);
-			printf("Record: %s added to  %ld th bucket.\n", item->id, address+1);
+			printf("Record: %s added to  %ld th bucket.\n", item->id, address + 1);
 			return;
-		}else
-		if (strcmp(test.id, item->id) == 0) {
+		} else if (strcmp(test.id, item->id) == 0) {
 			printf("Duplicate entry \n");
 			return;
 		}
@@ -762,8 +705,8 @@ void insertItem(HARDWARE* item, FILE* fp) {
  *
  *  Output: None
  *
-********************************************************/
-void searchOrDelete(char* searchId, FILE* fp, OP_TYPE opType) {
+ ********************************************************/
+void searchOrDelete(char *searchId, FILE *fp, OP_TYPE opType) {
 	HARDWARE found;
 	long address = hash(searchId);
 	if (fseek(fp, address * BUCKET_SIZE * sizeof(HARDWARE), SEEK_SET) != 0) {
@@ -780,7 +723,7 @@ void searchOrDelete(char* searchId, FILE* fp, OP_TYPE opType) {
 				printf("Record %s deleted \n", found.id);
 				return;
 			}
-			printf("Record: %s is %dth item in %ldth bucket\n Name: %s\n", found.id, i + 1, address +1 , found.name);
+			printf("Record: %s is %dth item in %ldth bucket\n Name: %s\n", found.id, i + 1, address + 1, found.name);
 			return;
 		}
 	}
@@ -795,15 +738,15 @@ void searchOrDelete(char* searchId, FILE* fp, OP_TYPE opType) {
  *  table file
  *
  *  Output:None
-********************************************************/
-void addItemsFromFile(char* inputString, FILE* fp) {
-	FILE* reader;
+ ********************************************************/
+void addItemsFromFile(char *inputString, FILE *fp) {
+	FILE *reader;
 	char line[MAX_FILENAME_LEN + 1] = "";
-	char* tkn;
+	char *tkn;
 	HARDWARE temp = {};
 	if ((reader = fopen(inputString, "r")) == NULL) {
 		printf("Could not open %s.\n", inputString);
-		return;//exit(1);
+		return;  // exit(1);
 	}
 	while (feof(reader) == 0) {
 		fgets(line, MAX_FILENAME_LEN, reader);

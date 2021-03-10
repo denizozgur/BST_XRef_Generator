@@ -20,7 +20,6 @@ int main(int argc, char** argv) {
 	if ((fout = fopen(out_filename, "w")) == NULL) { printf("Could not open %s.\n", out_filename); }
 
 	fprintf(fout,"~*~ Cross-Reference List ~*~\n");
-	fprintf(fout,"%s", timeStamp());
 	writeToFile(fout, buildTree(fin,fout));
 
 	fclose(fin);

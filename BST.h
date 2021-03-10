@@ -15,14 +15,16 @@ typedef struct qnode {
 
 typedef struct node {
 	char word_str[50];
-	Q_NODE* linesNumbers;
+	Q_NODE* queue;
+	Q_NODE* rear;
 	struct node *left;
 	struct node *right;
 } T_NODE;
 
 T_NODE *buildTree(FILE *fin, FILE *fout);
 void writeToFile(FILE *fp, T_NODE *root);
-int insert(T_NODE **root, const char *readStr, unsigned lNum);
+int insert(T_NODE **root, const char *readStr, unsigned data);
 void enqueue(Q_NODE **queue, Q_NODE **rear, unsigned data);
 char* timeStamp();
+
 #endif  // C_HW5_BST_H
