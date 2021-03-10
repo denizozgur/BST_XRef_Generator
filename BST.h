@@ -2,17 +2,29 @@
 
 #ifndef C_HW5_BST_H
 #define C_HW5_BST_H
-typedef struct nodeTag {
-	char data[20];
-	unsigned lines[];
-	struct nodeTag *left;
-	struct nodeTag *right;
-} NODE;
 
-void printTreeInorder(NODE *root);
-NODE *buildBinaryTree(int n);
-NODE *buildBinaryTree(int n);
-int insert(NODE **root, int data);
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
 
+typedef struct qnode {
+	unsigned lineNum;
+	struct qnode *next;
+} Q_NODE;
+
+typedef struct node {
+	char word_str[50];
+	Q_NODE* lines;
+	struct node *left;
+	struct node *right;
+} T_NODE;
+void readFromFile(FILE*fp);
+void buildTree (FILE *fp);
+void writeToFile(FILE *fp, T_NODE *root);
+void printTreeInorder(T_NODE *root);
+int insert(T_NODE **root, const char *readStr, unsigned lNum);
+void enqueue(Q_NODE **queue, Q_NODE **rear, unsigned data);
+char* getTimeStamp() { return ctime((const time_t *) time(NULL)); }
 
 #endif  // C_HW5_BST_H

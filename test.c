@@ -22,8 +22,7 @@ int main(void) {
 
 	FRIEND a_friend = {"John", "4081112345", 25};
 	FRIEND friend_2;
-	FRIEND friends[10] = {{"John", "4081112345", 25},
-	  {"Mary", "4089992222", 21}, {"Mira", "4086668888", 22}};
+	FRIEND friends[10] = {{"John", "4081112345", 25}, {"Mary", "4089992222", 21}, {"Mira", "4086668888", 22}};
 
 	friend_2.name = "Mary";
 	strcpy(friend_2.phone, "4089992222");
@@ -60,9 +59,7 @@ void exchange(FRIEND *one, FRIEND *two) {
  This function receives a pointer to a FRIEND structure
  and displays its fields on one line.
  */
-void print_a_friend(const FRIEND *a_friend) {
-	printf("%s %s %d\n", a_friend->name, a_friend->phone, a_friend->age);
-}
+void print_a_friend(const FRIEND *a_friend) { printf("%s %s %d\n", a_friend->name, a_friend->phone, a_friend->age); }
 
 /*
  ************ OUTPUT *****************
