@@ -4,7 +4,7 @@
 #define MAX_LINE_LEN 120
 
 T_NODE *buildTree(FILE *fin, FILE *fout) {
-	char* delim = " {}[];-*():.?!,\r\n";
+	char* delim = " {};():.?!,\r\n";
 	char line[MAX_LINE_LEN + 1];
 	char *tkn;
 	//	Q_NODE* que,* rearEnd = NULL;
@@ -12,9 +12,16 @@ T_NODE *buildTree(FILE *fin, FILE *fout) {
 	unsigned lNum = 1;
 	while (fgets(line, MAX_LINE_LEN, fin)) {
 		if (feof(fin) != 0) break;
-//		while (*line == '\n' || *line == '\r') fgets(line, MAX_LINE_LEN, fin);
 		fprintf(fout, "%-3d| %s", lNum, line);
 		tkn = strtok(line, delim);
+		if (tkn != NULL&& *tkn == '/' && tkn[1] == '*') {
+			while (*tkn != '*' && tkn[1] != '/' && feof(fin) == 0) {
+				fgets(line, MAX_LINE_LEN, fin);
+				fprintf(fout, "%-3d| %s", lNum, line);
+				lNum++;
+			}
+			tkn = strtok(line, delim);
+		}
 		while (tkn != NULL) {
 			if (!(isIdentifier(tkn))) break;
 			insert(&root, tkn, lNum);
