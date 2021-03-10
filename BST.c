@@ -4,7 +4,7 @@
 #define MAX_LINE_LEN 120
 
 T_NODE *buildTree(FILE *fin, FILE *fout) {
-	char* delim = " *():.?!,\r\n";
+	char* delim = " {}[];-*():.?!,\r\n";
 	char line[MAX_LINE_LEN + 1];
 	char *tkn;
 	//	Q_NODE* que,* rearEnd = NULL;
@@ -85,10 +85,10 @@ char *timeStamp() {
 }
 
 unsigned isIdentifier(const char *word) {
-	if (!(isalnum(word[0])) && word[0] != '_') return 0;
+	if (!(isalpha(word[0])) && word[0] != '_') return 0;
 	else
 		while (*word) {
-			if (!(isalnum(*word)) && *word != '_') return 0;
+			if (!(isalnum(*word)) && *word != '_' || *word == '/' || *word=='\''|| *word=='\"') return 0;
 			word++;
 		}
 	return 1;
