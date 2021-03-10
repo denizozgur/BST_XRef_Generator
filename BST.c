@@ -1,9 +1,10 @@
 // Created by Deniz Erisgen on 3/9/21.
 
 #include "BST.h"
-#define MAX_LINE_LEN 80
+#define MAX_LINE_LEN 120
 
 T_NODE *buildTree(FILE *fin, FILE *fout) {
+	char* delim = " *():.?!,\r\n";
 	char line[MAX_LINE_LEN + 1];
 	char *tkn;
 	//	Q_NODE* que,* rearEnd = NULL;
@@ -13,10 +14,11 @@ T_NODE *buildTree(FILE *fin, FILE *fout) {
 		if (feof(fin) != 0) break;
 //		while (*line == '\n' || *line == '\r') fgets(line, MAX_LINE_LEN, fin);
 		fprintf(fout, "%-3d| %s", lNum, line);
-		tkn = strtok(line, " *():.?!,\r\n");
+		tkn = strtok(line, delim);
 		while (tkn != NULL) {
+			if (!(isIdentifier(tkn))) break;
 			insert(&root, tkn, lNum);
-			tkn = strtok(NULL, " *():.?!,\r\n");
+			tkn = strtok(NULL, delim);
 		}
 		lNum++;
 	}
@@ -67,7 +69,7 @@ void enqueue(Q_NODE **queue, Q_NODE **rear, unsigned int data) {
 void writeToFile(FILE *fp, T_NODE *root) {
 	if (root) {
 		writeToFile(fp, root->left);
-		fprintf(fp, "%-10s ", root->word_str);
+		fprintf(fp, "%-20s ", root->word_str);
 		while (root->queue != NULL) {
 			fprintf(fp, "%d\t", root->queue->data);
 			root->queue = root->queue->next;
@@ -82,11 +84,11 @@ char *timeStamp() {
 	return ctime(&now);
 }
 
-u_short isIdentifier(const char *word) {
-	if (!(isalnum(word[0])) || word[0] != '_') return 0;
+unsigned isIdentifier(const char *word) {
+	if (!(isalnum(word[0])) && word[0] != '_') return 0;
 	else
 		while (*word) {
-			if (!(isalnum(*word)) || *word != '_') return 0;
+			if (!(isalnum(*word)) && *word != '_') return 0;
 			word++;
 		}
 	return 1;

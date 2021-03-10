@@ -27,6 +27,6 @@ void writeToFile(FILE *fp, T_NODE *root);
 int insert(T_NODE **root, const char *readStr, unsigned data);
 void enqueue(Q_NODE **queue, Q_NODE **rear, unsigned data);
 char *timeStamp();
-u_short isIdentifier(const char *word);
+unsigned isIdentifier(const char *word);
 
 #endif  // C_HW5_BST_H
