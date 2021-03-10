@@ -20,8 +20,9 @@ int main(int argc, char** argv) {
 	if ((fout = fopen(out_filename, "w")) == NULL) { printf("Could not open %s.\n", out_filename); }
 
 	fprintf(fout, "\t~*~ Cross-Reference List ~*~\n");
-	writeToFile(fout, buildTree(fin, fout));
-
+	T_NODE* tree = buildTree(fin, fout);
+	writeToFile(fout, tree);
+	free(tree);
 	fclose(fin);
 	fclose(fout);
 	return 0;

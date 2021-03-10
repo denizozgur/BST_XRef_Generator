@@ -7,7 +7,6 @@ T_NODE *buildTree(FILE *fin, FILE *fout) {
 	char* delim = " {};*():.?!,\r\n";
 	char line[MAX_LINE_LEN + 1];
 	char *tkn;
-	//	Q_NODE* que,* rearEnd = NULL;
 	T_NODE(*root) = NULL;
 	unsigned lNum = 1;
 	while (fgets(line, MAX_LINE_LEN, fin)) {
@@ -40,6 +39,7 @@ int insert(T_NODE **root, const char *readStr, unsigned data) {
 		*root = (T_NODE *) malloc(sizeof(T_NODE));
 		if (!(*root)) {
 			printf("Fatal malloc error!\n");
+			free(root);
 			exit(1);
 		}
 		strcpy((*root)->word_str, readStr);
@@ -74,15 +74,19 @@ void enqueue(Q_NODE **queue, Q_NODE **rear, unsigned int data) {
 }
 
 void writeToFile(FILE *fp, T_NODE *root) {
+	Q_NODE * ptr;
 	if (root) {
 		writeToFile(fp, root->left);
 		fprintf(fp, "%-20s ", root->word_str);
-		while (root->queue != NULL) {
-			fprintf(fp, "%d\t", root->queue->data);
-			root->queue = root->queue->next;
+		while ((ptr = dequeue(&root->queue,&root->rear))){
+			fprintf(fp, "%d\t", ptr->data);
+			free(ptr->next);
+			free(ptr);
 		}
 		fputc('\n', fp);
+		free(root->left);
 		writeToFile(fp, root->right);
+		free(root->right);
 	}
 }
 
@@ -99,4 +103,14 @@ unsigned isIdentifier(const char *word) {
 			word++;
 		}
 	return 1;
+}
+
+Q_NODE *dequeue(Q_NODE **queue, Q_NODE  **rear) {
+    Q_NODE *first;
+    if (*queue == NULL) return NULL;
+    first = *queue;
+    *queue = (*queue)->next;
+    if (*queue == NULL) *rear = NULL;
+    first->next = NULL;
+    return first;
 }

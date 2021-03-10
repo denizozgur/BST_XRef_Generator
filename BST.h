@@ -28,5 +28,5 @@ int insert(T_NODE **root, const char *readStr, unsigned data);
 void enqueue(Q_NODE **queue, Q_NODE **rear, unsigned data);
 char *timeStamp();
 unsigned isIdentifier(const char *word);
-
+Q_NODE *dequeue(Q_NODE **queue, Q_NODE  **rear);
 #endif  // C_HW5_BST_H
