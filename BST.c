@@ -4,23 +4,36 @@
 #define MAX_LINE_LEN 120
 
 T_NODE *buildTree(FILE *fin, FILE *fout) {
-	char* delim = " {};*():.?!,\r\n";
+	char *delim = " {};*():.?!,\t\r\n";
 	char line[MAX_LINE_LEN + 1];
-	char *tkn;
+	char *tkn,*tmp;
 	T_NODE(*root) = NULL;
 	unsigned lNum = 1;
 	while (fgets(line, MAX_LINE_LEN, fin)) {
 		if (feof(fin) != 0) break;
 		fprintf(fout, "%-3d| %s", lNum, line);
-		tkn = strtok(line, delim);
-		if (tkn != NULL && *tkn == '/' && tkn[1] == '*') {
-			while (*tkn != '*' && tkn[1] != '/' && feof(fin) == 0) {
+		tmp= line;
+		while (*tmp == ' ') tmp++;
+		strcpy(line,tmp);
+		if (line[0] == '\0' || line[0] == '\r') {
+			fgets(line, MAX_LINE_LEN, fin);
+			lNum++;
+		} else if (line[0] == '/' && line[1] == '*') {
+			while (line[0] != '*' && line[1] != '/') {
 				fgets(line, MAX_LINE_LEN, fin);
 				lNum++;
 				fprintf(fout, "%-3d| %s", lNum, line);
 			}
-			tkn = strtok(line, delim);
+			fgets(line, MAX_LINE_LEN, fin);
+			lNum++;
+			fprintf(fout, "%-3d| %s", lNum, line);
+		} else if (line[0] == '/' && line[1] == '/') {
+			fgets(line, MAX_LINE_LEN, fin);
+			lNum++;
+			fprintf(fout, "%-3d| %s", lNum, line);
 		}
+
+		tkn = strtok(line, delim);
 		while (tkn != NULL) {
 			if (!(isIdentifier(tkn))) break;
 			insert(&root, tkn, lNum);
@@ -74,11 +87,11 @@ void enqueue(Q_NODE **queue, Q_NODE **rear, unsigned int data) {
 }
 
 void writeToFile(FILE *fp, T_NODE *root) {
-	Q_NODE * ptr;
+	Q_NODE *ptr;
 	if (root) {
 		writeToFile(fp, root->left);
 		fprintf(fp, "%-20s ", root->word_str);
-		while ((ptr = dequeue(&root->queue,&root->rear))){
+		while ((ptr = dequeue(&root->queue, &root->rear))) {
 			fprintf(fp, "%d\t", ptr->data);
 			free(ptr->next);
 			free(ptr);
@@ -99,18 +112,18 @@ unsigned isIdentifier(const char *word) {
 	if (!(isalpha(word[0])) && word[0] != '_') return 0;
 	else
 		while (*word) {
-			if (!(isalnum(*word)) && *word != '_' || *word == '/' || *word=='\''|| *word=='\"') return 0;
+			if (!(isalnum(*word)) && *word != '_' || *word == '/' || *word == '\'' || *word == '\"') return 0;
 			word++;
 		}
 	return 1;
 }
 
-Q_NODE *dequeue(Q_NODE **queue, Q_NODE  **rear) {
-    Q_NODE *first;
-    if (*queue == NULL) return NULL;
-    first = *queue;
-    *queue = (*queue)->next;
-    if (*queue == NULL) *rear = NULL;
-    first->next = NULL;
-    return first;
+Q_NODE *dequeue(Q_NODE **queue, Q_NODE **rear) {
+	Q_NODE *first;
+	if (*queue == NULL) return NULL;
+	first = *queue;
+	*queue = (*queue)->next;
+	if (*queue == NULL) *rear = NULL;
+	first->next = NULL;
+	return first;
 }
