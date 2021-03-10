@@ -3,43 +3,37 @@
 #include "BST.h"
 #define MAX_LINE_LEN 120
 
+void parseLine(char *line) {
+	char* tmp = line;
+	while (*tmp == ' ') tmp++;
+	strcpy(line,tmp);
+}
+
 T_NODE *buildTree(FILE *fin, FILE *fout) {
-	char *delim = " {};*():.?!,\t\r\n";
+	char *delim = " {};*():%&?!,\t\r\n";
 	char line[MAX_LINE_LEN + 1];
 	char *tkn,*tmp;
 	T_NODE(*root) = NULL;
-	unsigned lNum = 1;
+	unsigned lNum = 0;
 	while (fgets(line, MAX_LINE_LEN, fin)) {
 		if (feof(fin) != 0) break;
-		fprintf(fout, "%-3d| %s", lNum, line);
-		tmp= line;
-		while (*tmp == ' ') tmp++;
-		strcpy(line,tmp);
-		if (line[0] == '\0' || line[0] == '\r') {
-			fgets(line, MAX_LINE_LEN, fin);
-			lNum++;
-		} else if (line[0] == '/' && line[1] == '*') {
+		fprintf(fout, "%-3d| %s", ++lNum, line);
+		if (line[0] == '/' && line[1] == '*') {
 			while (line[0] != '*' && line[1] != '/') {
 				fgets(line, MAX_LINE_LEN, fin);
-				lNum++;
-				fprintf(fout, "%-3d| %s", lNum, line);
+				fprintf(fout, "%-3d| %s", ++lNum, line);
 			}
 			fgets(line, MAX_LINE_LEN, fin);
-			lNum++;
-			fprintf(fout, "%-3d| %s", lNum, line);
+			fprintf(fout, "%-3d| %s", ++lNum, line);
 		} else if (line[0] == '/' && line[1] == '/') {
 			fgets(line, MAX_LINE_LEN, fin);
-			lNum++;
-			fprintf(fout, "%-3d| %s", lNum, line);
+			fprintf(fout, "%-3d| %s", ++lNum, line);
 		}
-
 		tkn = strtok(line, delim);
 		while (tkn != NULL) {
-			if (!(isIdentifier(tkn))) break;
-			insert(&root, tkn, lNum);
+			if (!(isIdentifier(tkn))) insert(&root, tkn, lNum);
 			tkn = strtok(NULL, delim);
 		}
-		lNum++;
 	}
 	fputc('\n', fout);
 	fprintf(fout, "\tCross-reference list made at: %s\n", timeStamp());
