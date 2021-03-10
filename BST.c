@@ -23,17 +23,13 @@ void buildTree(FILE *fp) {
 }
 
 void printTreeInorder(T_NODE *root) {
-	if (root) {
-		printTreeInorder(root->left);
-		printf("%3s", root->word_str);
-		printTreeInorder(root->right);
-	}
+
 }
 
 int insert(T_NODE **root, const char *readStr, unsigned lNum) {
 	if (!(*root)) {  // parent found: insert data
 		if (strcmp(readStr,(*root)->word_str) == 0) {
-			enqueue(&((*root)->lines),NULL,lNum);
+			enqueue(&((*root)->linesNumbers),NULL,lNum);
 			return 1;
 		}   // allocate the new node
 		else if (!(*root = (T_NODE *) malloc(sizeof(T_NODE)))) {
@@ -41,24 +37,21 @@ int insert(T_NODE **root, const char *readStr, unsigned lNum) {
 			exit(1);
 		}
 		strcpy((*root)->word_str, readStr);
-		enqueue(&((*root)->lines), NULL, lNum);
+		enqueue(&((*root)->linesNumbers), NULL, lNum);
 		(*root)->left = (*root)->right = NULL;
 		return 1;  // data inserted
 	} else if (strcmp(((*root)->word_str),readStr) > 0)
 		return insert(&(*root)->right, readStr, lNum);
 	else if (strcmp(((*root)->word_str),readStr) < 0)
 		return insert(&(*root)->left, readStr, lNum);
-	else {
-//       printf("Node already in the tree!\n");
-       return 0; // duplicate
-   }
+	return 0;
 }
 
 void enqueue(Q_NODE **queue, Q_NODE **rear, unsigned int data) {
 	Q_NODE *trv = *queue;
-	while (trv->lineNum != 0 && trv->lineNum < data) {
+	while (trv->data != 0 && trv->data < data) {
 		trv = trv->next;
-		if (trv->lineNum == data) return;
+		if (trv->data == data) return;
 	}
 	Q_NODE *qNew;
 	qNew = (Q_NODE *) malloc(sizeof(Q_NODE));
@@ -66,7 +59,7 @@ void enqueue(Q_NODE **queue, Q_NODE **rear, unsigned int data) {
 		printf("... error in enqueue!\n");
 		exit(1);
 	}
-	qNew->lineNum = data;
+	qNew->data = data;
 	qNew->next = NULL;
 	if (*queue == NULL) *queue = qNew;
 	else (*rear)->next = qNew;
@@ -74,7 +67,16 @@ void enqueue(Q_NODE **queue, Q_NODE **rear, unsigned int data) {
 }
 
 void writeToFile(FILE *fp, T_NODE *root) {
-
+	if (root) {
+		writeToFile(fp,root->left);
+		printf("%s", root->word_str);
+		while (root->linesNumbers != NULL){
+			printf("%d\t", root->linesNumbers->data);
+			root->linesNumbers = root->linesNumbers->next;
+			putchar('\n');
+		}
+		writeToFile(fp,root->right);
+	}
 }
 void readFromFile(FILE *fp) {
 

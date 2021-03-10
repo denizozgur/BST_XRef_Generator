@@ -9,13 +9,13 @@
 #include <time.h>
 
 typedef struct qnode {
-	unsigned lineNum;
+	unsigned data;
 	struct qnode *next;
 } Q_NODE;
 
 typedef struct node {
 	char word_str[50];
-	Q_NODE* lines;
+	Q_NODE*linesNumbers;
 	struct node *left;
 	struct node *right;
 } T_NODE;
