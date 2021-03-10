@@ -19,7 +19,7 @@ int main(int argc, char** argv) {
 	if ((fin = fopen(in_filename, "r")) == NULL) { printf("Could not open %s.\n", in_filename); }
 	if ((fout = fopen(out_filename, "w")) == NULL) { printf("Could not open %s.\n", out_filename); }
 
-	fprintf(fout, "~*~ Cross-Reference List ~*~\n");
+	fprintf(fout, "\t~*~ Cross-Reference List ~*~\n");
 	writeToFile(fout, buildTree(fin, fout));
 
 	fclose(fin);

@@ -11,8 +11,8 @@ T_NODE *buildTree(FILE *fin, FILE *fout) {
 	unsigned lNum = 1;
 	while (fgets(line, MAX_LINE_LEN, fin)) {
 		if (feof(fin) != 0) break;
-		while (*line == '\n' || *line == '\r') fgets(line, MAX_LINE_LEN, fin);
-		fprintf(fout, "%3d| %s", lNum, line);
+//		while (*line == '\n' || *line == '\r') fgets(line, MAX_LINE_LEN, fin);
+		fprintf(fout, "%-3d| %s", lNum, line);
 		tkn = strtok(line, " *():.?!,\r\n");
 		while (tkn != NULL) {
 			insert(&root, tkn, lNum);
@@ -21,7 +21,7 @@ T_NODE *buildTree(FILE *fin, FILE *fout) {
 		lNum++;
 	}
 	fputc('\n', fout);
-	fprintf(fout, "Cross-reference list made at: %s\n", timeStamp());
+	fprintf(fout, "\tCross-reference list made at: %s\n", timeStamp());
 	return root;
 }
 
