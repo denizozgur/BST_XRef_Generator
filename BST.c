@@ -3,14 +3,39 @@
 #include "BST.h"
 #define MAX_LINE_LEN 120
 
-void parseLine(char *line) {
+short parseLine(char *line) {
 	char* tmp = line;
 	while (*tmp == ' ') tmp++;
 	strcpy(line,tmp);
+	if ((tmp = strstr(tmp,"//"))) {
+		while (*tmp != '\n') {
+			*tmp = '\0';
+			tmp++;
+		}
+	}
+	if (strcspn(line, (const char *) "\'\"") != strlen(line)) {
+		char* startS = strchr(line,'\'');
+		char* startD = strchr(line,'\"');
+		char* endS = strrchr(line,'\'');
+		char* endD = strrchr(line,'\"');
+		if (startS != NULL) {
+			while (startS != endS+1) {
+				*startS = ' ';
+				startS++;
+			}
+		}
+		if (startD != NULL) {
+			while (startD != endD+1) {
+				*startD = ' ';
+				startD++;
+			}
+		}
+	}
+	return 1;
 }
 
 T_NODE *buildTree(FILE *fin, FILE *fout) {
-	char *delim = " {};*():%&?!,\t\r\n";
+	char *delim = " {};*():%&=?!/\\,\t\r\n";
 	char line[MAX_LINE_LEN + 1];
 	char *tkn,*tmp;
 	T_NODE(*root) = NULL;
@@ -18,21 +43,24 @@ T_NODE *buildTree(FILE *fin, FILE *fout) {
 	while (fgets(line, MAX_LINE_LEN, fin)) {
 		if (feof(fin) != 0) break;
 		fprintf(fout, "%-3d| %s", ++lNum, line);
-		if (line[0] == '/' && line[1] == '*') {
-			while (line[0] != '*' && line[1] != '/') {
-				fgets(line, MAX_LINE_LEN, fin);
+		tmp = line;
+		while (*tmp == ' ') tmp++;
+		if (*tmp == '/' && tmp[1] == '*') {
+			while (fgets(line, MAX_LINE_LEN, fin)) {
 				fprintf(fout, "%-3d| %s", ++lNum, line);
+				tmp = line;
+				while (*tmp == ' ') tmp++;
+				if (*tmp == '*' && tmp[1] == '/') break;
 			}
 			fgets(line, MAX_LINE_LEN, fin);
 			fprintf(fout, "%-3d| %s", ++lNum, line);
-		} else if (line[0] == '/' && line[1] == '/') {
-			fgets(line, MAX_LINE_LEN, fin);
-			fprintf(fout, "%-3d| %s", ++lNum, line);
 		}
-		tkn = strtok(line, delim);
-		while (tkn != NULL) {
-			if (!(isIdentifier(tkn))) insert(&root, tkn, lNum);
-			tkn = strtok(NULL, delim);
+		if (parseLine(line)) {
+			tkn = strtok(line, delim);
+			while (tkn != NULL && isdigit(*tkn) == 0) {
+				if (!(isIdentifier(tkn))) insert(&root, tkn, lNum);
+				tkn = strtok(NULL, delim);
+			}
 		}
 	}
 	fputc('\n', fout);
@@ -103,10 +131,9 @@ char *timeStamp() {
 }
 
 unsigned isIdentifier(const char *word) {
-	if (!(isalpha(word[0])) && word[0] != '_') return 0;
-	else
-		while (*word) {
-			if (!(isalnum(*word)) && *word != '_' || *word == '/' || *word == '\'' || *word == '\"') return 0;
+	if (isalpha(word[0]) == 0 || word[0] != '_') return 0;
+	while (*word) {
+			if ((isalnum(*word) == 0) && *word != '_') return 0;
 			word++;
 		}
 	return 1;

@@ -29,5 +29,5 @@ void enqueue(Q_NODE **queue, Q_NODE **rear, unsigned data);
 char *timeStamp();
 unsigned isIdentifier(const char *word);
 Q_NODE *dequeue(Q_NODE **queue, Q_NODE  **rear);
-void parseLine(char* line);
+short parseLine(char* line);
 #endif  // C_HW5_BST_H
