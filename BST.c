@@ -52,8 +52,6 @@ T_NODE *buildTree(FILE *fin, FILE *fout) {
 				while (*tmp == ' ') tmp++;
 				if (*tmp == '*' && tmp[1] == '/') break;
 			}
-			fgets(line, MAX_LINE_LEN, fin);
-			fprintf(fout, "%-3d| %s", ++lNum, line);
 		}
 		if (parseLine(line)) {
 			tkn = strtok(line, delim);
