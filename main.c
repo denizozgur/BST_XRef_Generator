@@ -8,13 +8,14 @@
 
 
 int main(int argc, char** argv) {
-	//	char* in_filename = argv[1];
-	char* in_filename = "test.c";
-	//	char* out_filename = argv[2];
-	char* out_filename = "out.txt";
+	char* in_filename = (argv[1]) ? argv[1] : "test.c";
+	char* out_filename = (argv[2]) ? argv[2] : "out.txt";
 	char* ptr = strchr(in_filename, '.');
 	ptr++;
-	if (*ptr != 'c' && *(ptr + 1) != '\0') { exit(2); }
+	if (*ptr != 'c' && *(ptr + 1) != '\0') {
+		printf("Sorry, %s is not a C File \n", in_filename);
+		exit(2);
+	}
 	FILE *fin, *fout;
 	if ((fin = fopen(in_filename, "r")) == NULL) { printf("Could not open %s.\n", in_filename); }
 	if ((fout = fopen(out_filename, "w")) == NULL) { printf("Could not open %s.\n", out_filename); }
@@ -27,3 +28,10 @@ int main(int argc, char** argv) {
 	fclose(fout);
 	return 0;
 }
+
+/************************OUTPUT**************************
+ ********************************************************
+ *
+ *
+ *
+ ********************************************************/

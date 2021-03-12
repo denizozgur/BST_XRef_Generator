@@ -35,7 +35,7 @@ short parseLine(char *line) {
 }
 
 T_NODE *buildTree(FILE *fin, FILE *fout) {
-	char *delim = " {};*():%&=?!/\\,\t\r\n";
+	char *delim = " {};*#-(<>):%&=?!/\\,\t\r\n";
 	char line[MAX_LINE_LEN + 1];
 	char *tkn,*tmp;
 	T_NODE(*root) = NULL;
@@ -129,7 +129,7 @@ char *timeStamp() {
 }
 
 unsigned isIdentifier(const char *word) {
-	if (isalpha(word[0]) == 0 || word[0] != '_') return 0;
+	if (isalpha(*word) == 0 || *word != '_') return 0;
 	while (*word) {
 			if ((isalnum(*word) == 0) && *word != '_') return 0;
 			word++;
