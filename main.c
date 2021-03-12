@@ -6,32 +6,54 @@
  ****/
 #include "BST.h"
 
-
 int main(int argc, char** argv) {
-	char* in_filename = (argv[1]) ? argv[1] : "test.c";
-	char* out_filename = (argv[2]) ? argv[2] : "out.txt";
-	char* ptr = strchr(in_filename, '.');
+	printf("This program reads a file and crates a cross-reference list \n");
+	if (argv[1] == NULL) {
+		printf("Please add an input file to the command");
+		exit(1);
+	}
+	char* in_file = argv[1];
+	// When I run it is passing in my $PATH var to the program
+	if (argv[2] == NULL || (strncmp(argv[2], "PATH", 4) != 0)) {
+		printf("Please add an output file to the command");
+		exit(2);
+	}
+	char* out_file = argv[2];
+	char* ptr = strchr(in_file, '.');
 	ptr++;
 	if (*ptr != 'c' && *(ptr + 1) != '\0') {
-		printf("Sorry, %s is not a C File \n", in_filename);
+		printf("Sorry, %s is not a C File \n", in_file);
 		exit(2);
 	}
 	FILE *fin, *fout;
-	if ((fin = fopen(in_filename, "r")) == NULL) { printf("Could not open %s.\n", in_filename); }
-	if ((fout = fopen(out_filename, "w")) == NULL) { printf("Could not open %s.\n", out_filename); }
-
+	printf("Opening read file \"%s\" \n", in_file);
+	if ((fin = fopen(in_file, "r")) == NULL) {
+		printf("Could not open %s.\n", in_file);
+	}
+	printf("Opening output file \"%s\" \n", out_file);
+	if ((fout = fopen(out_file, "w")) == NULL) {
+		printf("Could not open %s.\n", out_file);
+	}
+	printf("Building the tree\n");
+	printf("Creating list in \"%s\" \n", out_file);
 	fprintf(fout, "\t~*~ Cross-Reference List ~*~\n");
 	T_NODE* tree = buildTree(fin, fout);
 	writeToFile(fout, tree);
 	free(tree);
 	fclose(fin);
 	fclose(fout);
+	printf("Process finished \nGOODBYE");
 	return 0;
 }
 
 /************************OUTPUT**************************
- ********************************************************
- *
- *
- *
+
+ This program reads a file and crates a cross-reference list
+ Opening read file "test.c"
+ Opening output file "out.txt"
+ Building the tree
+ Creating list in "out.txt"
+ Process finished
+ GOODBYE
+
  ********************************************************/

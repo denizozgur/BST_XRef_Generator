@@ -46,7 +46,7 @@ CompactNamespaces: false
 ConstructorInitializerAllOnOneLineOrOnePerLine: false
 ContinuationIndentWidth: 2
 Cpp11BracedListStyle: true
-DerivePointerAlignment: true
+DerivePointerAlignment: false
 DisableFormat: false
 ExperimentalAutoDetectBinPacking: true
 FixNamespaceComments: true
@@ -66,7 +66,7 @@ NamespaceIndentation: Inner
 ObjCBinPackProtocolList: Auto
 ObjCSpaceAfterProperty: false
 ObjCSpaceBeforeProtocolList: false
-PointerAlignment: Right
+PointerAlignment: Left
 ReflowComments: true
 SortIncludes: true
 SortUsingDeclarations: false
