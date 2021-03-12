@@ -41,7 +41,7 @@ BreakBeforeTernaryOperators: true
 BreakConstructorInitializers: AfterColon
 BreakInheritanceList: AfterColon
 BreakStringLiterals: false
-ColumnLimit: 80
+ColumnLimit: 120
 CompactNamespaces: false
 ConstructorInitializerAllOnOneLineOrOnePerLine: false
 ContinuationIndentWidth: 2
@@ -66,7 +66,7 @@ NamespaceIndentation: Inner
 ObjCBinPackProtocolList: Auto
 ObjCSpaceAfterProperty: false
 ObjCSpaceBeforeProtocolList: false
-PointerAlignment: Left
+PointerAlignment: Right
 ReflowComments: true
 SortIncludes: true
 SortUsingDeclarations: false
