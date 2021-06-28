@@ -1,6 +1,4 @@
 /*****
- * CIS 26B - Advanced C Programming
- * Homework #5
  * NAME: Deniz Erisgen
  * IDE: GCC
  ****/
