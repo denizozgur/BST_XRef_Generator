@@ -1,9 +1,5 @@
-/*
-     CIS26B
-     Complex Structures and Functions
-        - define and initialize an array of FRIEND structures
-        - use structures as reference parameters (pointers)
-*/
+// Created by Deniz Erisgen on 3/9/21.
+
 #include <stdio.h>
 #include <string.h>
 
