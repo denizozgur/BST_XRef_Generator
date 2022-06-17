@@ -40,19 +40,18 @@ int main(void) {
 	return 0;
 }
 
-/*
+/**
  This function swaps
  two FRIEND structures
  */
 void exchange(FRIEND *one, FRIEND *two) {
 	FRIEND _temp;  // needed for swapping
-
 	_temp = *one;
 	*one = *two;
 	*two = _temp;
 }
 
-/*
+/**
  This function receives a pointer to a FRIEND structure
  and displays its fields on one line.
  */
@@ -60,7 +59,7 @@ void print_a_friend(const FRIEND *a_friend) {
 	printf("%s %s %d\n", a_friend->name, a_friend->phone, a_friend->age);
 }
 
-/*
+/**
  ************ OUTPUT *****************
 
  John 4081112345 25

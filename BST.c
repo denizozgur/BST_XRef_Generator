@@ -2,12 +2,12 @@
 
 #include "BST.h"
 #define MAX_LINE_LEN 120
-/********************************************************
+/**
  *  Clears up the line that was read from file
  *	Removes '' , "" , //
  *  Input:line in a char array
  *  Output:NONE
- ********************************************************/
+ **/
 short parseLine(char* line) {
 	char* tmp = line;
 	if (*tmp == ' ') {
@@ -41,12 +41,12 @@ short parseLine(char* line) {
 	return 1;
 }
 
-/********************************************************
+/***
  *  Checks if word is valid
  *
  *  Input: Const char array of word
  *  Output:True = 1 valid , False = 0 invalid
- ********************************************************/
+ **/
 short isIdentifier(const char* word) {
 	if (isalpha(*word) == 0 || *word != '_') return 0;
 	while (*word) {
@@ -56,13 +56,13 @@ short isIdentifier(const char* word) {
 	return 1;
 }
 
-/********************************************************
+/***
  *  Copies input file to out put file with line numbers
  *  and creates a Binary tree
  *
  *  Input:File ptr of input file,File ptr of output file
  *  Output: Returns a T_NODE pointer to the root
- ********************************************************/
+ **/
 T_NODE* buildTree(FILE* fin, FILE* fout) {
 	char* delim = " {};*#-(<>):%&=?!/\\,\t\r\n";
 	char line[MAX_LINE_LEN + 1];
@@ -94,12 +94,12 @@ T_NODE* buildTree(FILE* fin, FILE* fout) {
 	return root;
 }
 
-/********************************************************
+/**
  *  Writes the tree to a file IN-ORDER
  *
  *  Input:File pointer, T_NODE Ptr to root of tree
  *  Output:NONE
- ********************************************************/
+ **/
 void writeToFile(FILE* fp, T_NODE* root) {
 	Q_NODE* ptr;
 	if (root) {
@@ -117,7 +117,7 @@ void writeToFile(FILE* fp, T_NODE* root) {
 	}
 }
 
-/********************************************************
+/**
  *  Inserts to a tree recursively
  *	If there it is a duplicate , appends data to leaf
  *
@@ -125,7 +125,7 @@ void writeToFile(FILE* fp, T_NODE* root) {
  *  unsigned data line number
  *
  *  Output:Returns 0 if no leaf inserted
- ********************************************************/
+ **/
 int insert(T_NODE** root, const char* readStr, unsigned data) {
 	if (!(*root)) {
 		*root = (T_NODE*) malloc(sizeof(T_NODE));
@@ -148,24 +148,24 @@ int insert(T_NODE** root, const char* readStr, unsigned data) {
 	}
 }
 
-/********************************************************
+/**
  *   Gets printable time
  *   Format: Mon Mar 15 17:19:30 2021
  *
  *  Input:NONE
  *  Output: Time in a char array
- ********************************************************/
+ **/
 char* timeStamp() {
 	const time_t now = time(NULL);
 	return ctime(&now);
 }
 
-/********************************************************
+/**
  *  Adds data at the end of the queue
  *
  *  Input:Address of Queue , Address of Rear, unsingned data
  *  Output:NONE
- ********************************************************/
+ **/
 void enqueue(Q_NODE** queue, Q_NODE** rear, unsigned int data) {
 	Q_NODE* qNew;
 	qNew = (Q_NODE*) malloc(sizeof(Q_NODE));
@@ -183,12 +183,12 @@ void enqueue(Q_NODE** queue, Q_NODE** rear, unsigned int data) {
 	*rear = qNew;
 }
 
-/********************************************************
+/**
  *  Removes the first item from the queue
  *
  *  Input:Address of Queue , Address of Rear
  *  Output: Removed item
- ********************************************************/
+ **/
 Q_NODE* dequeue(Q_NODE** queue, Q_NODE** rear) {
 	Q_NODE* first;
 	if (*queue == NULL) return NULL;

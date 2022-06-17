@@ -1,7 +1,5 @@
-/*****
- * NAME: Deniz Erisgen
- * IDE: GCC
- ****/
+// Created by Deniz Erisgen on 3/9/21.
+
 #include "BST.h"
 
 int main(int argc, char** argv) {
