@@ -1,7 +1,7 @@
 // Created by Deniz Erisgen on 3/9/21.
 
-#ifndef C_HW5_BST_H
-#define C_HW5_BST_H
+#ifndef BST_H
+#define BST_H
 
 #include <ctype.h>
 #include <stdio.h>
@@ -38,4 +38,4 @@ Q_NODE* dequeue(Q_NODE** queue, Q_NODE** rear);
 
 short parseLine(char* line);
 
-#endif  // C_HW5_BST_H
+#endif  // BST_H

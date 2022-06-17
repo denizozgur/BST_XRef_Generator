@@ -56,7 +56,7 @@ short isIdentifier(const char* word) {
 	return 1;
 }
 
-/***
+/**
  *  Copies input file to out put file with line numbers
  *  and creates a Binary tree
  *
