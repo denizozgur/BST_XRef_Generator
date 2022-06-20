@@ -4,7 +4,7 @@
 
 int main(int argc, char **argv) {
 	char *in_file = "../test.c";
-	char *out_file = "../output.txt";
+	char *out_file = "../out.txt";
 	if (argc != 1) {
 		if (argv[2] == NULL || (strncmp(argv[2], "PATH", 4) != 0)) {
 			printf("Please add an output file to the command");

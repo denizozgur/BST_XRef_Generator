@@ -388,4 +388,6 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.properties
-# End of https://www.toptal.com/developers/gitignore/api/visualstudio
+/cmake-build-release/
+/cmake-build-default/
+output.txt
