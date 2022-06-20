@@ -11,31 +11,31 @@
 
 typedef struct qnode {
 	unsigned data;
-	struct qnode* next;
+	struct qnode *next;
 } Q_NODE;
 
 typedef struct node {
 	char word_str[50];
-	Q_NODE* queue;
-	Q_NODE* rear;
-	struct node* left;
-	struct node* right;
+	Q_NODE *queue;
+	Q_NODE *rear;
+	struct node *left;
+	struct node *right;
 } T_NODE;
 
-T_NODE* buildTree(FILE* fin, FILE* fout);
+T_NODE *buildTree(FILE *fin, FILE *fout);
 
-void writeToFile(FILE* fp, T_NODE* root);
+void writeToFile(FILE *fp, T_NODE *root);
 
-int insert(T_NODE** root, const char* readStr, unsigned data);
+int insert(T_NODE **root, const char *readStr, unsigned data);
 
-void enqueue(Q_NODE** queue, Q_NODE** rear, unsigned data);
+void enqueue(Q_NODE **queue, Q_NODE **rear, unsigned data);
 
-char* timeStamp();
+char *timeStamp();
 
-short isIdentifier(const char* word);
+short isIdentifier(const char *word);
 
-Q_NODE* dequeue(Q_NODE** queue, Q_NODE** rear);
+Q_NODE *dequeue(Q_NODE **queue, Q_NODE **rear);
 
-short parseLine(char* line);
+short cleanLine(char *line);
 
 #endif  // BST_H
