@@ -6,9 +6,10 @@
 /**
  * Removes '' , "" , // - Cleans the line that was read from file
  * @param line in a char array
- * @return 1 if successful
+ * @return successful = 0 , unsuccessful = 1
  */
 short cleanLine(char *line) {
+	if (line == NULL) return 1;
 	char *tmp = line;
 	if (*tmp == ' ') {
 		while (*tmp == ' ') tmp++;
@@ -38,7 +39,7 @@ short cleanLine(char *line) {
 			}
 		}
 	}
-	return 1;
+	return 0;
 }
 
 /**
