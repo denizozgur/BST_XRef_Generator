@@ -63,6 +63,7 @@ short isIdentifier(const char *word) {
  * @return Returns a T_NODE pointer to the root
  */
 T_NODE *buildTree(FILE *fin, FILE *fout) {
+	if (fin == NULL || fout == NULL) return NULL;
 	char line[MAX_LINE_LEN + 1];
 	char *tkn, *tmp;
 	T_NODE(*root) = NULL;
@@ -71,7 +72,7 @@ T_NODE *buildTree(FILE *fin, FILE *fout) {
 		if (feof(fin) != 0) break;
 		fprintf(fout, "%-3d| %s", ++lNum, line);
 		tmp = line;
-		while (*tmp == ' ') tmp++; // jump whitespace
+		while (*tmp == ' ') tmp++;  // jump whitespace
 		if (*tmp == '/' && tmp[1] == '*') {
 			while (fgets(line, MAX_LINE_LEN, fin)) {
 				fprintf(fout, "%-3d| %s", ++lNum, line);
