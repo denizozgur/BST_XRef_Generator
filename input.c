@@ -54,7 +54,9 @@ void exchange(FRIEND *one, FRIEND *two) {
  This function receives a pointer to a FRIEND structure
  and displays its fields on one line.
  */
-void print_a_friend(const FRIEND *a_friend) { printf("%s %s %d\n", a_friend->name, a_friend->phone, a_friend->age); }
+void print_a_friend(const FRIEND *a_friend) {
+	printf("%s %s %d\n", a_friend->name, a_friend->phone, a_friend->age);
+}
 
 /**
  ************ OUTPUT *****************

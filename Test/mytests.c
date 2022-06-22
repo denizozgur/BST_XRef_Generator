@@ -1,27 +1,29 @@
 // Created by Doe on 6/20/2022.
 #include "../BST.c"
-#define ASSERT_EQUAL(x,y) ((x == y) ? 0: 1)
-#define ASSERT_NULL(x) (x == NULL ?  0 : 1)
-
-/**
- * Checking for a false positive
- */
-int testTreeBuild() {
-	FILE *fin = NULL, *fout = NULL;
-	T_NODE *tree = buildTree(fin, fout);
-	return ASSERT_NULL(tree);
-}
-
+#include <assert.h>
 
 int main() {
-	if (testTreeBuild()) {
-		perror("Tree false positive");
-		return 1;
+	char *test = NULL;
+	char *empty = "";
+	char *empty2 = "   ";
+	char *blank = " ";
+	char *all[] = {test, empty, empty2, blank};
+	char dirty[] = "     's'omething \"with\" //empty lines";
+	char *clean = "something with ";
+	int allSize = sizeof(all) / sizeof(all[0]);
+	FILE *fin = fopen(empty, "r");
+	FILE *fout = fopen(empty2, "w");
+	//	Checking for a false positive
+	assert(fin == NULL);
+	assert(buildTree(fin, fout) == NULL);
+	for (int i = 0; i < allSize; i++) {
+		assert(cleanLine(all[i]) == 1);
+		assert(isIdentifier(all[i]) == 1);
 	}
-	if (!(cleanLine(NULL))) {
-		perror("clean line problem");
-		return 1;
-	}
-//	add more tests below
+	cleanLine(dirty); // clean up
+	assert(strcmp(dirty,clean) == 0);
+
+//	assert((strcmp(dirty,clean) == 0));
+	//	add more tests below
 	return 0;
 }

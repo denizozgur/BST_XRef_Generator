@@ -3,57 +3,59 @@
 #include "BST.h"
 #define MAX_LINE_LEN 120
 #define CHARS (" {};*#-(<>):%&=?!/\\,\t\r\n")
+#define SIZE(x) (sizeof(*x) * strlen(x))
+
+/**
+ * Removes rejected chars and shifts the string
+ * @param line line array
+ * @param lookFor rejected char to look for in string
+ */
+void shiftLetters(char line[],char lookFor){
+	char *start = line;
+	char *reject ;
+	while ((reject = strchr(start,lookFor)) != NULL) {
+		start = reject;
+		strcpy(start++, reject+1);
+	}
+}
+
 /**
  * Removes '' , "" , // - Cleans the line that was read from file
  * @param line in a char array
  * @return successful = 0 , unsuccessful = 1
  */
 short cleanLine(char *line) {
-	if (line == NULL) return 1;
+	if (line == NULL || strcmp(line, "") == 0) return 1;
 	char *tmp = line;
-	if (*tmp == ' ') {
-		while (*tmp == ' ') tmp++;
-		strcpy(line, tmp);
+	while (*tmp == ' ') {
+		tmp++;
+		if (*tmp == '\0') return 1;
 	}
-	if ((tmp = strstr(tmp, "//"))) {
-		while (*tmp != '\n') {
-			*tmp = '\0';
-			tmp++;
-		}
+	if (strcspn(tmp, (const char *) "\'\"//") != strlen(tmp)) {
+		char *forSlash = strchr(tmp,'/');
+		if (forSlash != NULL) *forSlash = '\0';
+		char *startS = strchr(tmp, '\'');
+		if (startS != NULL) shiftLetters(tmp,'\'');
+		char *startD = strchr(tmp, '\"');
+		if (startD != NULL) shiftLetters(tmp,'\"');
 	}
-	if (strcspn(line, (const char *) "\'\"") != strlen(line)) {
-		char *startS = strchr(line, '\'');
-		char *startD = strchr(line, '\"');
-		char *endS = strrchr(line, '\'');
-		char *endD = strrchr(line, '\"');
-		if (startS != NULL) {
-			while (startS != endS + 1) {
-				*startS = ' ';
-				startS++;
-			}
-		}
-		if (startD != NULL) {
-			while (startD != endD + 1) {
-				*startD = ' ';
-				startD++;
-			}
-		}
-	}
+	strcpy(line, tmp);
 	return 0;
 }
+
 
 /**
  * Checks if word is valid
  * @param word Const char array of word
- * @return 1 valid , 0 invalid
+ * @return valid = 0, invalid = 1
  */
 short isIdentifier(const char *word) {
-	if (isalpha(*word) == 0 || *word != '_') return 0;
+	if (word == NULL || isblank(*word) || strcmp(word, "") == 0) return 1;
 	while (*word) {
-		if ((isalnum(*word) == 0) && *word != '_') return 0;
+		if (isalnum(*word) == 0 && *word != '_') return 1;
 		word++;
 	}
-	return 1;
+	return 0;
 }
 
 /**
@@ -64,7 +66,7 @@ short isIdentifier(const char *word) {
  * @return Returns a T_NODE pointer to the root
  */
 T_NODE *buildTree(FILE *fin, FILE *fout) {
-	if (fin == NULL || fout == NULL) return NULL;
+	if (fin == NULL || ferror(fout)) return NULL;
 	char line[MAX_LINE_LEN + 1];
 	char *tkn, *tmp;
 	T_NODE(*root) = NULL;
@@ -85,8 +87,8 @@ T_NODE *buildTree(FILE *fin, FILE *fout) {
 		cleanLine(line);
 		tkn = strtok(line, CHARS);
 		while (tkn != NULL && isdigit(*tkn) == 0) {
-			if (!(isIdentifier(tkn))) insert(&root, tkn, lNum);
-			tkn = strtok(NULL, CHARS);
+			if (isIdentifier(tkn) == 0) insert(&root, tkn, lNum);
+			tkn = strtok(NULL, CHARS);  // next token
 		}
 	}
 	fputc('\n', fout);
