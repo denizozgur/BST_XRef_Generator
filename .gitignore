@@ -392,3 +392,4 @@ fabric.properties
 /cmake-build-default/
 output.txt
 /cmake-build-default-coverage/
+/cmake-build-debug-coverage/

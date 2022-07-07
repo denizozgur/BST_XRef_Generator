@@ -3,7 +3,6 @@
 #include "BST.h"
 #define MAX_LINE_LEN 120
 #define CHARS (" {};*#-(<>):%&=?!/\\,\t\r\n")
-#define SIZE(x) (sizeof(*x) * strlen(x))
 
 /**
  * Removes rejected chars and shifts the string

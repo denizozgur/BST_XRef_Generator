@@ -22,6 +22,10 @@ typedef struct node {
 	struct node *right;
 } T_NODE;
 
+short cleanLine(char *line);
+
+short isIdentifier(const char *word);
+
 T_NODE *buildTree(FILE *fin, FILE *fout);
 
 void writeToFile(FILE *fp, T_NODE *root);
@@ -32,10 +36,6 @@ void enqueue(Q_NODE **queue, Q_NODE **rear, unsigned data);
 
 char *timeStamp();
 
-short isIdentifier(const char *word);
-
 Q_NODE *dequeue(Q_NODE **queue, Q_NODE **rear);
-
-short cleanLine(char *line);
 
 #endif  // BST_H
