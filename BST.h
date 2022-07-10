@@ -15,7 +15,7 @@ typedef struct qnode {
 } Q_NODE;
 
 typedef struct node {
-	char word_str[50];
+	char word_str[64];
 	Q_NODE *queue;
 	Q_NODE *rear;
 	struct node *left;
@@ -32,7 +32,7 @@ void writeToFile(FILE *fp, T_NODE *root);
 
 int insert(T_NODE **root, const char *readStr, unsigned data);
 
-void enqueue(Q_NODE **queue, Q_NODE **rear, unsigned data);
+void enqueue(T_NODE **leaf, unsigned int data);
 
 char *timeStamp();
 

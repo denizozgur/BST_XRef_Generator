@@ -3,11 +3,11 @@
 #include <assert.h>
 
 int main() {
-	char *test = NULL;
+	char *nullTest = NULL;
 	char *empty = "";
 	char *empty2 = "   ";
 	char *blank = " ";
-	char *all[] = {test, empty, empty2, blank};
+	char *all[] = {nullTest, empty, empty2, blank};
 	char dirty[] = "     's'omething \"with\" //empty lines";
 	char *clean = "something with ";
 	int allSize = sizeof(all) / sizeof(all[0]);
@@ -16,14 +16,14 @@ int main() {
 	//	Checking for a false positive
 	assert(fin == NULL);
 	assert(buildTree(fin, fout) == NULL);
+
 	for (int i = 0; i < allSize; i++) {
 		assert(cleanLine(all[i]) == 1);
 		assert(isIdentifier(all[i]) == 1);
 	}
+
 	cleanLine(dirty); // clean up
 	assert(strcmp(dirty,clean) == 0);
 
-//	assert((strcmp(dirty,clean) == 0));
-	//	add more tests below
 	return 0;
 }

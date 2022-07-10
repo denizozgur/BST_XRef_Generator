@@ -13,8 +13,9 @@ void shiftLetters(char line[],char lookFor){
 	char *start = line;
 	char *reject ;
 	while ((reject = strchr(start,lookFor)) != NULL) {
-		start = reject;
-		strcpy(start++, reject+1);
+		start = reject++;
+		memmove(start, reject, strlen(reject) + 1);
+		start++;
 	}
 }
 
@@ -24,24 +25,25 @@ void shiftLetters(char line[],char lookFor){
  * @return successful = 0 , unsuccessful = 1
  */
 short cleanLine(char *line) {
-	if (line == NULL || strcmp(line, "") == 0) return 1;
+	if (line == NULL || line[0] == '\n' || strcmp(line, "") == 0) return 1;
 	char *tmp = line;
 	while (*tmp == ' ') {
 		tmp++;
 		if (*tmp == '\0') return 1;
 	}
-	if (strcspn(tmp, (const char *) "\'\"//") != strlen(tmp)) {
-		char *forSlash = strchr(tmp,'/');
+	line = memmove(line, tmp, strlen(tmp));
+	tmp = line;
+	if (strcspn(tmp, (const char *) "\'\"/") != strlen(tmp)) {
+		char *forSlash = strchr(tmp, '/');
 		if (forSlash != NULL) *forSlash = '\0';
 		char *startS = strchr(tmp, '\'');
-		if (startS != NULL) shiftLetters(tmp,'\'');
+		if (startS != NULL) shiftLetters(tmp, '\'');
 		char *startD = strchr(tmp, '\"');
-		if (startD != NULL) shiftLetters(tmp,'\"');
+		if (startD != NULL) shiftLetters(tmp, '\"');
 	}
-	strcpy(line, tmp);
+	if (strcmp(line, tmp) != 0) memmove(line, tmp, strlen(tmp));
 	return 0;
 }
-
 
 /**
  * Checks if word is valid
@@ -126,24 +128,28 @@ void writeToFile(FILE *fp, T_NODE *root) {
  */
 int insert(T_NODE **root, const char *readStr, unsigned data) {
 	if (!(*root)) {
-		*root = (T_NODE *) malloc(sizeof(T_NODE));
+		*root = (T_NODE *) calloc(1, sizeof(T_NODE));
 		if (!(*root)) {
 			printf("Fatal malloc error!\n");
 			free(root);
 			exit(1);
 		}
-		strcpy((*root)->word_str, readStr);
-		enqueue(&((*root)->queue), &((*root)->rear), data);
+		if (strlen(readStr) < sizeof((*root)->word_str)) {
+			strcpy((*root)->word_str, readStr);
+		} else
+			return 1;
+		enqueue(root, data);
 		(*root)->left = (*root)->right = NULL;
-		return 1;  // data inserted
+		return 0;  // data inserted
 	} else if (strcmp((*root)->word_str, readStr) > 0)
 		return insert(&(*root)->right, readStr, data);
 	else if (strcmp((*root)->word_str, readStr) < 0)
 		return insert(&(*root)->left, readStr, data);
 	else if (strcmp((*root)->word_str, readStr) == 0) {
-		enqueue(&((*root)->queue), &((*root)->rear), data);
+		enqueue(root, data);
 		return 0;
 	}
+	return 1;
 }
 
 /**
@@ -157,25 +163,30 @@ char *timeStamp() {
 
 /**
  * Adds data at the end of the queue
- * @param queue Address of Queue
+ * @param leaf Address of Queue
  * @param rear Address of Rear
  * @param data unsigned int data
  */
-void enqueue(Q_NODE **queue, Q_NODE **rear, unsigned int data) {
-	Q_NODE *qNew;
-	qNew = (Q_NODE *) malloc(sizeof(Q_NODE));
+void enqueue(T_NODE **leaf, unsigned int data) {
+	Q_NODE *qNew = (Q_NODE *) calloc(1, sizeof(Q_NODE));
 	if (!qNew) {
+		free(qNew);
 		printf("... error in enqueue!\n");
 		exit(1);
 	}
 	qNew->data = data;
-	qNew->next = NULL;
-	if (*queue == NULL) *queue = qNew;
-	else {
-		if ((*rear)->data == data) return;
-		(*rear)->next = qNew;
+
+	if ((*leaf)->queue == NULL) {
+		(*leaf)->rear = (*leaf)->queue = qNew;
+	} else {
+		if ((*leaf)->rear->data == data) {
+			free(qNew);
+			return;
+		} else {
+			(*leaf)->rear->next = qNew;
+			(*leaf)->rear = (*leaf)->rear->next;
+		}
 	}
-	*rear = qNew;
 }
 
 /**
